@@ -27,8 +27,11 @@ if __name__ == '__main__':
         if str.startswith("bw"):
             tokens = str.split()
             # ['bw', '=', '49.9', 'MB/sec']
-            assert tokens[3] == 'MB/sec', "Not supported unit {}".format(tokens[3])
-            bw = float(tokens[2])
+            if tokens[3] == 'GB/sec':
+                bw = float(tokens[2])*1024
+            else:
+                bw = float(tokens[2])
+            # assert tokens[3] == 'MB/sec', "Not supported unit {}".format(tokens[3])
             state = STATE_BW
             continue
 
@@ -69,10 +72,10 @@ if __name__ == '__main__':
 
 
     sorted_mix = sorted(mix_dict.items(), key=operator.itemgetter(0))
-    
-    print "# msgsize(Bytes) bw(MB/sec) lat(us)"
+
+    print("# msgsize(Bytes) bw(MB/sec) lat(us)")
     for item in sorted_mix:
-        print "%d %.1f %d" % (item[0], item[1][0], item[1][1])
+        print("%d %.1f %d" % (item[0], item[1][0], item[1][1]))
 
 
 
